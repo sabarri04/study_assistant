@@ -27,10 +27,20 @@ HISTORY_FILE = "history.json"
 
 
 def load_questions(question_file: str) -> list[dict[str, Any]]:
-    """Load study questions from a JSON file.
+   def load_questions(question_file: str) -> list[dict[str, Any]]:
+    """Load study questions from a JSON file."""
 
-    Milestone 2:
-    Read and return the list stored in sample_questions.json.
+    try:
+        with open(question_file, "r", encoding="utf-8") as file:
+            return json.load(file)
+
+    except FileNotFoundError:
+        print(f"Error: '{question_file}' not found.")
+        return []
+
+    except json.JSONDecodeError:
+        print(f"Error: '{question_file}' contains invalid JSON.")
+        return []
 
     Milestone 4:
     Handle missing files and invalid JSON gracefully.
