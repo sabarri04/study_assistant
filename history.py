@@ -37,12 +37,20 @@ def save_session(history_file: str, session: dict[str, Any]) -> None:
 
 
 def display_history(history: list[dict[str, Any]]) -> None:
-    """Print saved sessions in a readable format."""
-    # TODO:
-    # - Show a clear message when no sessions exist.
-    # - Otherwise display a numbered list with the timestamp, topic,
-    #   question and notes for each session.
-    pass
+    """Print saved sessions."""
+
+    if not history:
+        print("No study sessions found.")
+        return
+
+    print("\nStudy History")
+
+    for i, session in enumerate(history, start=1):
+        print(f"\nSession {i}")
+        print(f"Date      : {session['timestamp']}")
+        print(f"Topic     : {session['topic']}")
+        print(f"Question  : {session['question']}")
+        print(f"Notes     : {session['notes']}")
 
 
 def search_history(
