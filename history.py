@@ -85,13 +85,34 @@ def export_session(
     session: dict[str, Any],
     export_directory: str,
 ) -> Path | None:
-    """Export one selected study session as a Markdown file.
+    """Export one selected study session as a Markdown file."""
 
-    Milestone 3:
-    - Create the export directory if required.
-    - Create a safe and meaningful filename.
-    - Write the session details in Markdown format.
-    - Return the path of the created file.
-    """
-    # TODO: Implement this function.
-    return None
+    try:
+        export_path = Path(export_directory)
+        export_path.mkdir(parents=True, exist_ok=True)
+
+        timestamp = str(session.get("timestamp", "session"))
+        safe_timestamp = (
+            timestamp.replace(":", "-")
+            .replace("T", "_")
+        )
+
+        file_path = export_path / f"study_session_{safe_timestamp}.md"
+
+        content = (
+            "# Study Session\n\n"
+            f"**Timestamp:** {session.get('timestamp', '')}\n\n"
+            f"**Topic:** {session.get('topic', '')}\n\n"
+            f"## Question\n\n"
+            f"{session.get('question', '')}\n\n"
+            f"## Notes\n\n"
+            f"{session.get('notes', '')}\n"
+        )
+
+        file_path.write_text(content, encoding="utf-8")
+
+        return file_path
+
+    except OSError as error:
+        print(f"Error exporting session: {error}")
+        return None
