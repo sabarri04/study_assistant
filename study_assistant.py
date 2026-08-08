@@ -49,15 +49,28 @@ def load_questions(question_file: str) -> list[dict[str, Any]]:
     return []
 
 
-def select_question(
+ddef select_question(
     questions: list[dict[str, Any]],
 ) -> dict[str, Any] | None:
     """Display available questions and return the user's selection."""
-    # TODO:
-    # - Display numbered questions.
-    # - Ask the user to select one.
-    # - Validate the input.
-    return None
+
+    print("\nAvailable Questions")
+
+    for i, question in enumerate(questions, start=1):
+        print(f"{i}. {question['topic']}")
+
+    try:
+        choice = int(input("\nChoose a question: "))
+
+        if 1 <= choice <= len(questions):
+            return questions[choice - 1]
+
+        print("Invalid selection.")
+        return None
+
+    except ValueError:
+        print("Please enter a valid number.")
+        return None
 
 
 def complete_study_session(
