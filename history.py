@@ -11,26 +11,29 @@ from typing import Any
 
 
 def load_history(history_file: str) -> list[dict[str, Any]]:
-    """Return all saved study sessions.
+    """Return all saved study sessions."""
 
-    Milestone 2:
-    - Return an empty list if the history file does not exist.
-    - Read valid JSON history from the file.
+    path = Path(history_file)
 
-    Milestone 4:
-    - Handle invalid JSON without crashing the application.
-    """
-    # TODO: Implement this function.
-    return []
+    if not path.exists():
+        return []
+
+    try:
+        with path.open("r", encoding="utf-8") as file:
+            return json.load(file)
+
+    except json.JSONDecodeError:
+        return []
 
 
 def save_session(history_file: str, session: dict[str, Any]) -> None:
     """Append a study session to the history file."""
-    # TODO:
-    # 1. Load the existing history.
-    # 2. Add the new session.
-    # 3. Save the complete history as JSON.
-    pass
+
+    history = load_history(history_file)
+    history.append(session)
+
+    with open(history_file, "w", encoding="utf-8") as file:
+        json.dump(history, file, indent=4)
 
 
 def display_history(history: list[dict[str, Any]]) -> None:
