@@ -179,12 +179,13 @@ def display_menu() -> None:
 
 def main() -> None:
     """Run the menu-driven application."""
-    # Load the history and show Recent Activity when the program starts.
+
     history = load_history(HISTORY_FILE)
     show_recent_activity(history)
 
     while True:
         display_menu()
+
         choice = input("Choose an option: ").strip()
 
         if choice == "1":
