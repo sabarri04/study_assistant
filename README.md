@@ -1,7 +1,7 @@
 # AI Study Assistant
 
-**Student Name:** TODO  
-**Roll Number:** TODO  
+**Student Name:** SABARRINATH S  
+**Roll Number:** AM.SC.P2CSN26017  
 
 ## Project Overview
 
