@@ -27,12 +27,17 @@ HISTORY_FILE = "history.json"
 
 
 def load_questions(question_file: str) -> list[dict[str, Any]]:
-   def load_questions(question_file: str) -> list[dict[str, Any]]:
-    """Load study questions from a JSON file."""
+    """Load study questions from a JSON file.
 
+    Returns an empty list if the file is missing or contains invalid JSON.
+    """
     try:
         with open(question_file, "r", encoding="utf-8") as file:
-            return json.load(file)
+            data = json.load(file)
+            if isinstance(data, list):
+                return data
+            print(f"Error: '{question_file}' does not contain a list of questions.")
+            return []
 
     except FileNotFoundError:
         print(f"Error: '{question_file}' not found.")
@@ -42,14 +47,8 @@ def load_questions(question_file: str) -> list[dict[str, Any]]:
         print(f"Error: '{question_file}' contains invalid JSON.")
         return []
 
-    Milestone 4:
-    Handle missing files and invalid JSON gracefully.
-    """
-    # TODO: Implement this function.
-    return []
 
-
-ddef select_question(
+def select_question(
     questions: list[dict[str, Any]],
 ) -> dict[str, Any] | None:
     """Display available questions and return the user's selection."""
@@ -112,8 +111,13 @@ def show_recent_activity(history: list[dict[str, Any]]) -> None:
     Milestone 3:
     Replace the fixed value with RECENT_ACTIVITY_LIMIT from config.py.
     """
-    # TODO: Implement the Recent Activity enhancement.
-    pass
+    if not history:
+        print("No recent activity.")
+        return
+
+    recent = sorted(history, key=lambda s: s.get("timestamp", ""), reverse=True)[:3]
+    print("\nRecent Activity")
+    display_history(recent)
 
 
 def run_search() -> None:
@@ -134,11 +138,18 @@ def run_export() -> None:
 
     display_history(history)
 
-    # TODO (Milestone 3):
-    # - Ask the user to select a session.
-    # - Validate the selection.
-    # - Export it using export_session().
-    # - Display the output path.
+    display_history(history)
+
+    try:
+        choice = int(input("\nChoose a session to export: ").strip())
+        if 1 <= choice <= len(history):
+            selected = history[choice - 1]
+            out_path = export_session(selected)
+            print(f"Exported to: {out_path}")
+        else:
+            print("Invalid selection.")
+    except ValueError:
+        print("Please enter a valid number.")
 
 
 def display_menu() -> None:
@@ -153,8 +164,9 @@ def display_menu() -> None:
 
 def main() -> None:
     """Run the menu-driven application."""
-    # TODO (Milestone 3):
     # Load the history and show Recent Activity when the program starts.
+    history = load_history(HISTORY_FILE)
+    show_recent_activity(history)
 
     while True:
         display_menu()
