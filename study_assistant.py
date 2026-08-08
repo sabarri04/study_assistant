@@ -22,8 +22,12 @@ from prompts import APP_TITLE, format_study_prompt
 
 # Version 1 begins with direct file-path values.
 # Milestone 3 requires these values to be read from config.py.
-QUESTIONS_FILE = "sample_questions.json"
-HISTORY_FILE = "history.json"
+from config import (
+    EXPORT_DIRECTORY,
+    HISTORY_FILE,
+    QUESTIONS_FILE,
+    RECENT_ACTIVITY_LIMIT,
+)
 
 
 def load_questions(question_file: str) -> list[dict[str, Any]]:
@@ -106,18 +110,21 @@ def start_study_session() -> None:
 
 
 def show_recent_activity(history: list[dict[str, Any]]) -> None:
-    """Display the three most recent sessions when the application starts.
+    """Display the most recent study sessions."""
 
-    Milestone 3:
-    Replace the fixed value with RECENT_ACTIVITY_LIMIT from config.py.
-    """
     if not history:
-        print("No recent activity.")
         return
 
-    recent = sorted(history, key=lambda s: s.get("timestamp", ""), reverse=True)[:3]
+    recent_sessions = history[-RECENT_ACTIVITY_LIMIT:]
+
     print("\nRecent Activity")
-    display_history(recent)
+    print("-" * 40)
+
+    for session in reversed(recent_sessions):
+        print(
+            f"{session.get('timestamp', '')} | "
+            f"{session.get('topic', '')}"
+        )
 
 
 def run_search() -> None:
@@ -130,6 +137,7 @@ def run_search() -> None:
 
 def run_export() -> None:
     """Allow the user to select and export one saved session."""
+
     history = load_history(HISTORY_FILE)
 
     if not history:
@@ -138,16 +146,23 @@ def run_export() -> None:
 
     display_history(history)
 
-    display_history(history)
-
     try:
-        choice = int(input("\nChoose a session to export: ").strip())
-        if 1 <= choice <= len(history):
-            selected = history[choice - 1]
-            out_path = export_session(selected)
-            print(f"Exported to: {out_path}")
-        else:
-            print("Invalid selection.")
+        choice = int(input("\nEnter the session number to export: "))
+
+        if choice < 1 or choice > len(history):
+            print("Invalid session number.")
+            return
+
+        selected_session = history[choice - 1]
+
+        output_path = export_session(
+            selected_session,
+            EXPORT_DIRECTORY,
+        )
+
+        if output_path:
+            print(f"\nSession exported to: {output_path}")
+
     except ValueError:
         print("Please enter a valid number.")
 
