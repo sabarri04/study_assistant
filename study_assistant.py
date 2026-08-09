@@ -31,24 +31,22 @@ from config import (
 
 
 def load_questions(question_file: str) -> list[dict[str, Any]]:
-    """Load study questions from a JSON file.
+    """Load study questions from a JSON file."""
 
-    Returns an empty list if the file is missing or contains invalid JSON.
-    """
     try:
         with open(question_file, "r", encoding="utf-8") as file:
-            data = json.load(file)
-            if isinstance(data, list):
-                return data
-            print(f"Error: '{question_file}' does not contain a list of questions.")
-            return []
+            return json.load(file)
 
     except FileNotFoundError:
-        print(f"Error: '{question_file}' not found.")
+        print(f"Error: '{question_file}' was not found.")
         return []
 
     except json.JSONDecodeError:
         print(f"Error: '{question_file}' contains invalid JSON.")
+        return []
+
+    except Exception as error:
+        print(f"Unexpected error: {error}")
         return []
 
 
