@@ -25,4 +25,4 @@ history.json
 exports/
 
 # Environment Variables
-.env
+.env__pycache__/ 

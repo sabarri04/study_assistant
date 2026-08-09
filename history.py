@@ -23,6 +23,11 @@ def load_history(history_file: str) -> list[dict[str, Any]]:
             return json.load(file)
 
     except json.JSONDecodeError:
+        print("History file contains invalid JSON.")
+        return []
+
+    except Exception as error:
+        print(f"Unable to load history: {error}")
         return []
 
 
