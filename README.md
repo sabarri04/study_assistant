@@ -5,11 +5,21 @@
 
 ## Project Overview
 
-TODO: Briefly explain the purpose of the completed AI Study Assistant.
+## Project Overview
+
+The AI Study Assistant is a Python-based console application that helps users practise study topics through guided question-and-answer sessions. It allows users to select questions, record their own explanations, save study history, search previous sessions, and export selected sessions as Markdown files.
 
 ## Implemented Features
 
-TODO: Replace this section with a concise list of the features you completed.
+- Load study questions from a JSON file
+- Menu-driven interface
+- Complete guided study sessions
+- Save study history to history.json
+- Display previous study sessions
+- Search study history using keywords
+- Export study sessions as Markdown
+- Display recent study activity
+- Read configuration values from config.py
 
 ## Project Structure
 
@@ -27,32 +37,62 @@ study_assistant/
 
 ## Installation and Setup
 
-TODO: Explain how to create and activate a virtual environment.
 
-TODO: Explain how to install the required dependencies.
+1. Clone the repository.
+
+2. Create a virtual environment.
+
+Windows
+
+python -m venv venv
+
+venv\Scripts\activate
+
+Linux/macOS
+
+python3 -m venv venv
+
+source venv/bin/activate
+
+3. Install dependencies.
+
+pip install -r requirements.txt
 
 ## Running the Application
 
-TODO: Add the command used to run the program.
+
+Run the application using:
+
+python study_assistant.py
 
 ## Generated Files
 
-The completed application may generate:
+The following files are generated while the application is running:
 
-- `history.json`
-- an `exports/` directory containing Markdown files
+- history.json
+- exports/
 
-TODO: Explain whether these generated files should be tracked by Git.
+These files are generated automatically and should not be committed to Git. They are excluded using .gitignore.
 
 ## Version Summary
 
 ### Version 1
 
-TODO: Summarise the core functionality included in Version 1.
+
+- Load questions from JSON
+- Complete study sessions
+- Save study history
+- Display study history
+- Menu-driven interface
 
 ### Version 2
 
-TODO: Summarise the enhancements included in Version 2.
+
+- Search study history
+- Export study sessions as Markdown
+- Display recent activity
+- Read configuration values from config.py
+- Improved repository organisation
 
 ## Notes
 
